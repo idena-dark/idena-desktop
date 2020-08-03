@@ -1,5 +1,13 @@
 import React from 'react'
-import {Stack, Box, Text, Icon, useDisclosure, useToast} from '@chakra-ui/core'
+import {
+  Stack,
+  Box,
+  Text,
+  Icon,
+  useDisclosure,
+  useToast,
+  useColorMode,
+} from '@chakra-ui/core'
 import {useTranslation} from 'react-i18next'
 import {
   useIdentityState,
@@ -37,7 +45,7 @@ import {
 } from '../screens/validation/utils'
 import {persistItem} from '../shared/utils/persist'
 import {InviteProvider} from '../shared/providers/invite-context'
-import {rem} from '../shared/theme'
+import theme, {rem} from '../shared/theme'
 
 export default function ProfilePage() {
   const {
@@ -94,6 +102,8 @@ export default function ProfilePage() {
   }, [epoch])
 
   const toDna = toLocaleDna(language)
+
+  const {colorMode} = useColorMode()
 
   return (
     <InviteProvider>
@@ -241,7 +251,11 @@ export default function ProfilePage() {
                     status: 'success',
                     // eslint-disable-next-line react/display-name
                     render: () => (
-                      <Toast title={t('Invitation is successfully spoiled')} />
+                      <Toast
+                        bg={colorMode === 'light' ? 'white' : 'black'}
+                        color={theme.colors[colorMode].text}
+                        title={t('Invitation is successfully spoiled')}
+                      />
                     ),
                   })
                   onCloseSpoilForm()
@@ -250,6 +264,8 @@ export default function ProfilePage() {
                     // eslint-disable-next-line react/display-name
                     render: () => (
                       <Toast
+                        bg={colorMode === 'light' ? 'white' : 'black'}
+                        color={theme.colors[colorMode].text}
                         title={t('Invitation is missing')}
                         status="error"
                       />
